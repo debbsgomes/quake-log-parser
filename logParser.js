@@ -1,102 +1,113 @@
 const fs = require('fs');
 const path = require('path');
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+function debugLog(message) {
+    if (isDevelopment) {
+        console.debug(message);
+    }
+}
+
 function parseLogFile(filePath) {
     let logData;
     try {
-      logData = fs.readFileSync(filePath, 'utf-8');
+        logData = fs.readFileSync(filePath, 'utf-8');
     } catch (error) {
-      console.error(`Error reading file ${filePath}:`, error.message);
-      return [];
+        console.error(`Error reading file ${filePath}:`, error.message);
+        return [];
     }
-  
+
     const lines = logData.split('\n');
-  
     const matches = [];
     let currentMatch = null;
-  
-    lines.forEach(line => {
-      if (line.includes('InitGame')) {
-        if (currentMatch) {
-          matches.push(currentMatch);
-        }
-        currentMatch = { totalKills: 0, players: new Set(), kills: {} };
-      } else if (line.includes('ShutdownGame')) {
-        if (currentMatch) {
-          matches.push(currentMatch);
-          currentMatch = null;
-        }
-      } else if (line.includes('Kill:')) {
-        const killData = parseKillLine(line);
-  
-        if (killData) {
-          currentMatch.totalKills += 1;
-          currentMatch.players.add(killData.killer);
-          currentMatch.players.add(killData.victim);
-  
-          if (!currentMatch.kills[killData.killer]) {
-            currentMatch.kills[killData.killer] = 0;
-          }
-  
-          if (killData.killer === '<world>') {
-            if (!currentMatch.kills[killData.victim]) {
-              currentMatch.kills[killData.victim] = 0;
-            }
-            currentMatch.kills[killData.victim] -= 1;
-          } else {
-            currentMatch.kills[killData.killer] += 1;
-          }
-        }
-      }
-    });
-  
-    if (currentMatch) {
-      matches.push(currentMatch);
-    }
-  
-    return matches;
-  }
-  
 
-  function parseKillLine(line) {
+    lines.forEach(line => {
+        if (line.startsWith('InitGame')) {
+            if (currentMatch) {
+                matches.push(currentMatch);
+            }
+            currentMatch = { totalKills: 0, players: new Set(), kills: {} };
+        } else if (line.startsWith('ShutdownGame')) {
+            if (currentMatch) {
+                matches.push(currentMatch);
+                currentMatch = null;
+            }
+        } else if (line.startsWith('Kill:')) {
+            const killData = parseKillLine(line);
+
+            if (killData) {
+                processKillData(currentMatch, killData);
+            }
+        }
+    });
+
+    if (currentMatch) {
+        matches.push(currentMatch);
+    }
+
+    return matches;
+}
+
+function processKillData(match, killData) {
+    match.totalKills += 1;
+    match.players.add(killData.killer);
+    match.players.add(killData.victim);
+
+    if (!match.kills[killData.killer]) {
+        match.kills[killData.killer] = 0;
+    }
+
+    if (killData.killer === '<world>') {
+        if (!match.kills[killData.victim]) {
+            match.kills[killData.victim] = 0;
+        }
+        match.kills[killData.victim] -= 1;
+    } else {
+        match.kills[killData.killer] += 1;
+    }
+}
+
+
+function parseKillLine(line) {
     const killRegex = /Kill:\s+\d+\s+\d+\s+\d+:\s+(.*)\skilled\s(.*)\sby\s(.*)/;
     const match = line.match(killRegex);
     if (match) {
-      const [_, killer, victim, meansOfDeath] = match;
-  
-      if (!killer || !victim || !meansOfDeath) {
-        console.warn(`Warning: Incomplete kill data found in line: ${line}`);
-        return null;
-      }
-  
-      return { killer, victim, meansOfDeath };
-    } else {
-      console.warn(`Warning: Line does not match expected kill format: ${line}`);
-      return null;
-    }
-  }
-  
+        const [_, killer, victim, meansOfDeath] = match;
 
-  function generateReport(matches) {
+        if (!killer || !victim || !meansOfDeath) {
+            console.warn(`Warning: Incomplete kill data found in line: ${line}`);
+            return null;
+        }
+
+        return { killer, victim, meansOfDeath };
+    } else {
+        console.warn(`Warning: Line does not match expected kill format: ${line}`);
+        return null;
+    }
+}
+
+
+function generateReport(matches) {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const baseFilename = `game_report_${timestamp}`;
 
     try {
-        // Generate text report
         const textFilePath = path.join(__dirname, `${baseFilename}.txt`);
-        const textReport = generateTextReport(matches);
-        fs.writeFileSync(textFilePath, textReport);
-        console.log(`Text report saved to ${textFilePath}`);
+        saveReport(textFilePath, generateTextReport(matches));
 
-        // Generate CSV report
         const csvFilePath = path.join(__dirname, `${baseFilename}.csv`);
-        const csvReport = generateCSVReport(matches);
-        fs.writeFileSync(csvFilePath, csvReport);
-        console.log(`CSV report saved to ${csvFilePath}`);
+        saveReport(csvFilePath, generateCSVReport(matches));
     } catch (error) {
         console.error(`Error generating reports:`, error.message);
     }
 }
+
+function saveReport(filePath, content) {
+    fs.writeFileSync(filePath, content);
+    console.log(`Report saved to ${filePath}`);
+}
+
 
 
 function generateTextReport(matches) {
@@ -162,9 +173,9 @@ function generateCSVReport(matches) {
 }
 
 function getTimestampedFileName(baseName, extension) {
-  const now = new Date();
-  const timestamp = now.toISOString().replace(/[:.]/g, '-');
-  return `${baseName}_${timestamp}.${extension}`;
+    const now = new Date();
+    const timestamp = now.toISOString().replace(/[:.]/g, '-');
+    return `${baseName}_${timestamp}.${extension}`;
 }
 
 const matches = parseLogFile('./qgames.log');
