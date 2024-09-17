@@ -1,6 +1,10 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import logger from './logger.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 function parseLogFile(filePath) {
     let logData;
@@ -65,7 +69,7 @@ function parseKillLine(line) {
     const killRegex = /Kill:\s+\d+\s+\d+\s+\d+:\s+(.*)\skilled\s(.*)\sby\s(.*)/;
     const match = line.match(killRegex);
     if (match) {
-        const [_, killer, victim, meansOfDeath] = match;
+        const [, killer, victim, meansOfDeath] = match;
         return { killer, victim, meansOfDeath };
     }
     return null;
@@ -76,17 +80,18 @@ function generateReport(matches) {
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
         const baseFilename = `game_report_${timestamp}`;
 
-        const textFilePath = path.join(__dirname, `${baseFilename}.txt`);
+        const textFilePath = path.resolve(__dirname, `${baseFilename}.txt`);
         const textReport = generateTextReport(matches);
         fs.writeFileSync(textFilePath, textReport);
         console.log(`Text report saved to ${textFilePath}`);
 
-        const csvFilePath = path.join(__dirname, `${baseFilename}.csv`);
+        const csvFilePath = path.resolve(__dirname, `${baseFilename}.csv`);
         const csvReport = generateCSVReport(matches);
         fs.writeFileSync(csvFilePath, csvReport);
         console.log(`CSV report saved to ${csvFilePath}`);
     } catch (error) {
         logger.error(`Error generating reports: ${error.message}`);
+        console.error(`Full error: ${error.stack}`);
     }
 }
 

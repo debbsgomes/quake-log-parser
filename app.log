@@ -1,0 +1,4 @@
+2024-09-17T21:35:05.811Z [error]: Error generating reports: __dirname is not defined
+2024-09-17T21:37:14.536Z [error]: Error generating reports: __dirname is not defined
+2024-09-17T21:55:12.613Z [error]: Error generating reports: ENOENT: no such file or directory, open 'c:\c:\Users\Deborah\Desktop\workspace\quake-log-parser-cloudwalk-test\game_report_2024-09-17T21-55-12-610Z.txt'
+2024-09-17T21:57:34.456Z [error]: Error generating reports: ENOENT: no such file or directory, open 'c:\c:\Users\Deborah\Desktop\workspace\quake-log-parser-cloudwalk-test\game_report_2024-09-17T21-57-34-450Z.txt'
