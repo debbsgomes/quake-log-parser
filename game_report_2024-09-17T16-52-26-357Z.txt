@@ -1,0 +1,357 @@
+
+Game 1:
+Total kills: 0
+Players: 
+Kills:
+Player ranking (by kills):
+
+Game 2:
+Total kills: 11
+Players: <world>, Isgalamido, Mocinha
+Kills:
+  <world>: 0
+  Isgalamido: -5
+Player ranking (by kills):
+  1. <world>: 0 kills
+  2. Isgalamido: -5 kills
+
+Game 3:
+Total kills: 4
+Players: Isgalamido, Mocinha, <world>, Zeh, Dono da Bola
+Kills:
+  Isgalamido: 1
+  <world>: 0
+  Zeh: -2
+  Dono da Bola: -1
+Player ranking (by kills):
+  1. Isgalamido: 1 kills
+  2. <world>: 0 kills
+  3. Dono da Bola: -1 kills
+  4. Zeh: -2 kills
+
+Game 4:
+Total kills: 105
+Players: <world>, Isgalamido, Dono da Bola, Zeh, Assasinu Credi
+Kills:
+  <world>: 0
+  Isgalamido: 19
+  Dono da Bola: 13
+  Zeh: 20
+  Assasinu Credi: 13
+Player ranking (by kills):
+  1. Zeh: 20 kills
+  2. Isgalamido: 19 kills
+  3. Dono da Bola: 13 kills
+  4. Assasinu Credi: 13 kills
+  5. <world>: 0 kills
+
+Game 5:
+Total kills: 14
+Players: Isgalamido, Zeh, Dono da Bola, <world>, Assasinu Credi
+Kills:
+  Isgalamido: 2
+  <world>: 0
+  Assasinu Credi: 1
+  Zeh: 1
+Player ranking (by kills):
+  1. Isgalamido: 2 kills
+  2. Assasinu Credi: 1 kills
+  3. Zeh: 1 kills
+  4. <world>: 0 kills
+
+Game 6:
+Total kills: 29
+Players: Oootsimo, Zeh, Isgalamido, <world>, UnnamedPlayer, Dono da Bola, Maluquinho, Assasinu Credi, Mal
+Kills:
+  Oootsimo: 8
+  Isgalamido: 3
+  Zeh: 7
+  <world>: 0
+  Dono da Bola: 2
+  Maluquinho: 0
+  Assasinu Credi: 1
+Player ranking (by kills):
+  1. Oootsimo: 8 kills
+  2. Zeh: 7 kills
+  3. Isgalamido: 3 kills
+  4. Dono da Bola: 2 kills
+  5. Assasinu Credi: 1 kills
+  6. <world>: 0 kills
+  7. Maluquinho: 0 kills
+
+Game 7:
+Total kills: 130
+Players: <world>, Zeh, Dono da Bola, Assasinu Credi, Oootsimo, Isgalamido, Mal, Chessus
+Kills:
+  <world>: 0
+  Zeh: 9
+  Dono da Bola: 12
+  Assasinu Credi: 22
+  Oootsimo: 20
+  Mal: -3
+  Isgalamido: 16
+Player ranking (by kills):
+  1. Assasinu Credi: 22 kills
+  2. Oootsimo: 20 kills
+  3. Isgalamido: 16 kills
+  4. Dono da Bola: 12 kills
+  5. Zeh: 9 kills
+  6. <world>: 0 kills
+  7. Mal: -3 kills
+
+Game 8:
+Total kills: 89
+Players: <world>, Oootsimo, Isgalamido, Zeh, Assasinu Credi, Mal, Dono da Bola
+Kills:
+  <world>: 0
+  Oootsimo: 16
+  Isgalamido: 20
+  Assasinu Credi: 10
+  Zeh: 12
+  Dono da Bola: 3
+  Mal: -2
+Player ranking (by kills):
+  1. Isgalamido: 20 kills
+  2. Oootsimo: 16 kills
+  3. Zeh: 12 kills
+  4. Assasinu Credi: 10 kills
+  5. Dono da Bola: 3 kills
+  6. <world>: 0 kills
+  7. Mal: -2 kills
+
+Game 9:
+Total kills: 67
+Players: <world>, Assasinu Credi, Oootsimo, Zeh, Mal, Dono da Bola, Isgalamido, Chessus
+Kills:
+  <world>: 0
+  Assasinu Credi: 10
+  Oootsimo: 9
+  Mal: 3
+  Dono da Bola: 2
+  Zeh: 12
+  Isgalamido: 1
+  Chessus: 8
+Player ranking (by kills):
+  1. Zeh: 12 kills
+  2. Assasinu Credi: 10 kills
+  3. Oootsimo: 9 kills
+  4. Chessus: 8 kills
+  5. Mal: 3 kills
+  6. Dono da Bola: 2 kills
+  7. Isgalamido: 1 kills
+  8. <world>: 0 kills
+
+Game 10:
+Total kills: 60
+Players: Mal, Oootsimo, Assasinu Credi, Dono da Bola, Chessus, Zeh, <world>, Isgalamido
+Kills:
+  Mal: 1
+  Assasinu Credi: 3
+  Dono da Bola: 3
+  Chessus: 5
+  Zeh: 7
+  <world>: 0
+  Oootsimo: -1
+  Isgalamido: 6
+Player ranking (by kills):
+  1. Zeh: 7 kills
+  2. Isgalamido: 6 kills
+  3. Chessus: 5 kills
+  4. Assasinu Credi: 3 kills
+  5. Dono da Bola: 3 kills
+  6. Mal: 1 kills
+  7. <world>: 0 kills
+  8. Oootsimo: -1 kills
+
+Game 11:
+Total kills: 20
+Players: <world>, Dono da Bola, Isgalamido, Oootsimo, Assasinu Credi, Chessus, Zeh, Mal
+Kills:
+  <world>: 0
+  Dono da Bola: -2
+  Isgalamido: 5
+  Oootsimo: 4
+  Assasinu Credi: -3
+Player ranking (by kills):
+  1. Isgalamido: 5 kills
+  2. Oootsimo: 4 kills
+  3. <world>: 0 kills
+  4. Dono da Bola: -2 kills
+  5. Assasinu Credi: -3 kills
+
+Game 12:
+Total kills: 160
+Players: <world>, Dono da Bola, Assasinu Credi, Chessus, Mal, Zeh, Isgalamido, Oootsimo
+Kills:
+  <world>: 0
+  Dono da Bola: 3
+  Assasinu Credi: 20
+  Mal: -6
+  Zeh: 13
+  Chessus: 13
+  Isgalamido: 26
+  Oootsimo: 13
+Player ranking (by kills):
+  1. Isgalamido: 26 kills
+  2. Assasinu Credi: 20 kills
+  3. Zeh: 13 kills
+  4. Chessus: 13 kills
+  5. Oootsimo: 13 kills
+  6. Dono da Bola: 3 kills
+  7. <world>: 0 kills
+  8. Mal: -6 kills
+
+Game 13:
+Total kills: 6
+Players: <world>, Isgalamido, Oootsimo, Assasinu Credi, Dono da Bola, Zeh
+Kills:
+  <world>: 0
+  Isgalamido: -1
+  Oootsimo: 2
+  Dono da Bola: -1
+  Zeh: 2
+Player ranking (by kills):
+  1. Oootsimo: 2 kills
+  2. Zeh: 2 kills
+  3. <world>: 0 kills
+  4. Isgalamido: -1 kills
+  5. Dono da Bola: -1 kills
+
+Game 14:
+Total kills: 122
+Players: Isgalamido, Zeh, Chessus, Dono da Bola, <world>, Mal, Oootsimo, Assasinu Credi
+Kills:
+  Isgalamido: 22
+  Chessus: 7
+  <world>: 0
+  Mal: -2
+  Oootsimo: 9
+  Assasinu Credi: 7
+  Dono da Bola: 2
+  Zeh: 5
+Player ranking (by kills):
+  1. Isgalamido: 22 kills
+  2. Oootsimo: 9 kills
+  3. Chessus: 7 kills
+  4. Assasinu Credi: 7 kills
+  5. Zeh: 5 kills
+  6. Dono da Bola: 2 kills
+  7. <world>: 0 kills
+  8. Mal: -2 kills
+
+Game 15:
+Total kills: 3
+Players: <world>, Zeh
+Kills:
+  <world>: 0
+  Zeh: -3
+Player ranking (by kills):
+  1. <world>: 0 kills
+  2. Zeh: -3 kills
+
+Game 16:
+Total kills: 0
+Players: 
+Kills:
+Player ranking (by kills):
+
+Game 17:
+Total kills: 13
+Players: <world>, Dono da Bola, Zeh, Assasinu Credi, Oootsimo, Isgalamido, Mal
+Kills:
+  <world>: 0
+  Dono da Bola: -2
+  Zeh: 0
+  Assasinu Credi: -3
+  Oootsimo: 1
+  Isgalamido: 0
+  Mal: -1
+Player ranking (by kills):
+  1. Oootsimo: 1 kills
+  2. <world>: 0 kills
+  3. Zeh: 0 kills
+  4. Isgalamido: 0 kills
+  5. Mal: -1 kills
+  6. Dono da Bola: -2 kills
+  7. Assasinu Credi: -3 kills
+
+Game 18:
+Total kills: 7
+Players: Zeh, Assasinu Credi, Isgalamido, Mal, Oootsimo, <world>, Dono da Bola
+Kills:
+  Zeh: 2
+  Isgalamido: 1
+  Assasinu Credi: 2
+  <world>: 0
+  Dono da Bola: -1
+  Mal: -1
+Player ranking (by kills):
+  1. Zeh: 2 kills
+  2. Assasinu Credi: 2 kills
+  3. Isgalamido: 1 kills
+  4. <world>: 0 kills
+  5. Dono da Bola: -1 kills
+  6. Mal: -1 kills
+
+Game 19:
+Total kills: 95
+Players: <world>, Mal, Zeh, Dono da Bola, Isgalamido, Assasinu Credi, Oootsimo
+Kills:
+  <world>: 0
+  Mal: 2
+  Zeh: 20
+  Isgalamido: 14
+  Oootsimo: 10
+  Dono da Bola: 14
+  Assasinu Credi: 9
+Player ranking (by kills):
+  1. Zeh: 20 kills
+  2. Isgalamido: 14 kills
+  3. Dono da Bola: 14 kills
+  4. Oootsimo: 10 kills
+  5. Assasinu Credi: 9 kills
+  6. Mal: 2 kills
+  7. <world>: 0 kills
+
+Game 20:
+Total kills: 3
+Players: Dono da Bola, Zeh, Oootsimo, Assasinu Credi
+Kills:
+  Dono da Bola: 2
+  Oootsimo: 1
+Player ranking (by kills):
+  1. Dono da Bola: 2 kills
+  2. Oootsimo: 1 kills
+
+Game 21:
+Total kills: 131
+Players: Dono da Bola, Isgalamido, <world>, Zeh, Oootsimo, Mal, Assasinu Credi
+Kills:
+  Dono da Bola: 14
+  <world>: 0
+  Zeh: 19
+  Mal: 6
+  Isgalamido: 17
+  Assasinu Credi: 19
+  Oootsimo: 22
+Player ranking (by kills):
+  1. Oootsimo: 22 kills
+  2. Zeh: 19 kills
+  3. Assasinu Credi: 19 kills
+  4. Isgalamido: 17 kills
+  5. Dono da Bola: 14 kills
+  6. Mal: 6 kills
+  7. <world>: 0 kills
+
+Overall Stats:
+Average kills per game: 50.90
+Top player overall:
+  1. Isgalamido: 147 total kills
+  2. Zeh: 124 total kills
+  3. Oootsimo: 114 total kills
+  4. Assasinu Credi: 111 total kills
+  5. Dono da Bola: 63 total kills
+  6. Chessus: 33 total kills
+  7. <world>: 0 total kills
+  8. Maluquinho: 0 total kills
+  9. Mal: -3 total kills

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 function parseLogFile(filePath) {
   const logData = fs.readFileSync(filePath, 'utf-8');
@@ -59,30 +60,81 @@ function parseKillLine(line) {
   return null;
 }
 
-function generateReport(matches, outputFilePath) {
-  let report = '';
+function generateReport(matches) {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const baseFilename = `game_report_${timestamp}`;
 
-  matches.forEach((match, index) => {
-    report += `\nGame ${index + 1}:\n`;
-    report += `Total kills: ${match.totalKills}\n`;
+    const textFilePath = path.join(__dirname, `${baseFilename}.txt`);
+    const textReport = generateTextReport(matches);
+    fs.writeFileSync(textFilePath, textReport);
+    console.log(`Text report saved to ${textFilePath}`);
 
-    const players = Array.from(match.players);
-    report += `Players: ${players.join(', ')}\n`;
+    const csvFilePath = path.join(__dirname, `${baseFilename}.csv`);
+    const csvReport = generateCSVReport(matches);
+    fs.writeFileSync(csvFilePath, csvReport);
+    console.log(`CSV report saved to ${csvFilePath}`);
+}
 
-    report += 'Kills:\n';
-    Object.keys(match.kills).forEach(player => {
-      report += `  ${player}: ${match.kills[player]}\n`;
+function generateTextReport(matches) {
+    let report = '';
+
+    let totalKills = 0;
+    let playerStats = {};
+
+    matches.forEach((match, index) => {
+        report += `\nGame ${index + 1}:\n`;
+        report += `Total kills: ${match.totalKills}\n`;
+        totalKills += match.totalKills;
+
+        const players = Array.from(match.players);
+        report += `Players: ${players.join(', ')}\n`;
+
+        report += 'Kills:\n';
+        Object.keys(match.kills).forEach(player => {
+            report += `  ${player}: ${match.kills[player]}\n`;
+
+            if (!playerStats[player]) {
+                playerStats[player] = 0;
+            }
+            playerStats[player] += match.kills[player];
+        });
+
+        report += 'Player ranking (by kills):\n';
+        const sortedPlayers = Object.keys(match.kills).sort((a, b) => match.kills[b] - match.kills[a]);
+        sortedPlayers.forEach((player, rank) => {
+            report += `  ${rank + 1}. ${player}: ${match.kills[player]} kills\n`;
+        });
     });
 
-    report += 'Player ranking (by kills):\n';
-    const sortedPlayers = Object.keys(match.kills).sort((a, b) => match.kills[b] - match.kills[a]);
-    sortedPlayers.forEach((player, rank) => {
-      report += `  ${rank + 1}. ${player}: ${match.kills[player]} kills\n`;
-    });
-  });
+    const numberOfGames = matches.length;
+    const averageKills = totalKills / numberOfGames;
 
-  fs.writeFileSync(outputFilePath, report);
-  console.log(`Report saved to ${outputFilePath}`);
+    report += `\nOverall Stats:\n`;
+    report += `Average kills per game: ${averageKills.toFixed(2)}\n`;
+    report += `Top player overall:\n`;
+
+    const sortedOverallPlayers = Object.keys(playerStats).sort((a, b) => playerStats[b] - playerStats[a]);
+    sortedOverallPlayers.forEach((player, rank) => {
+        report += `  ${rank + 1}. ${player}: ${playerStats[player]} total kills\n`;
+    });
+
+    return report;
+}
+
+function generateCSVReport(matches) {
+    let csvReport = 'Game,Player,Total Kills,Ranking\n';
+
+    matches.forEach((match, index) => {
+        const gameNumber = index + 1;
+        const sortedPlayers = Object.keys(match.kills).sort((a, b) => match.kills[b] - match.kills[a]);
+
+        sortedPlayers.forEach((player, rank) => {
+            const playerRanking = rank + 1;
+            csvReport += `${gameNumber},${player},${match.kills[player]},${playerRanking}\n`;
+        });
+    });
+
+    return csvReport;
 }
 
 function getTimestampedFileName(baseName, extension) {
@@ -94,5 +146,3 @@ function getTimestampedFileName(baseName, extension) {
 const matches = parseLogFile('./qgames.log');
 const outputFilePath = getTimestampedFileName('game_report', 'txt');
 generateReport(matches, outputFilePath);
-
-
