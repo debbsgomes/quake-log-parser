@@ -1,6 +1,11 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { parseLogFile, parseKillLine, generateTextReport, generateCSVReport } from '../logParser.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 describe('Log Parser Tests', () => {
   let testFilePath;
