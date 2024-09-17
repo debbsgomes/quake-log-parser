@@ -59,33 +59,40 @@ function parseKillLine(line) {
   return null;
 }
 
-function generateReport(matches) {
-    matches.forEach((match, index) => {
-        console.log(`\n========== Game ${index + 1} ==========`);
-        console.log(`Total Kills: ${match.totalKills}`);
-        
-        // Convert the players Set to an array for display
-        const players = Array.from(match.players);
-        console.log(`Players: ${players.join(', ')}`);
-        
-        console.log('\n--- Kill Summary ---');
-        Object.keys(match.kills).forEach(player => {
-            const killCount = match.kills[player];
-            const killLabel = Math.abs(killCount) === 1 ? 'kill' : 'kills';
-            console.log(`  ${player}: ${killCount} ${killLabel}`);
-        });
+function generateReport(matches, outputFilePath) {
+  let report = '';
 
-        console.log('\n--- Player Ranking (by kills) ---');
-        const sortedPlayers = Object.keys(match.kills).sort((a, b) => match.kills[b] - match.kills[a]);
-        sortedPlayers.forEach((player, rank) => {
-            const killCount = match.kills[player];
-            const killLabel = Math.abs(killCount) === 1 ? 'kill' : 'kills';
-            console.log(`  ${rank + 1}. ${player}: ${killCount} ${killLabel}`);
-        });
-        
-        console.log('===============================\n');
+  matches.forEach((match, index) => {
+    report += `\nGame ${index + 1}:\n`;
+    report += `Total kills: ${match.totalKills}\n`;
+
+    const players = Array.from(match.players);
+    report += `Players: ${players.join(', ')}\n`;
+
+    report += 'Kills:\n';
+    Object.keys(match.kills).forEach(player => {
+      report += `  ${player}: ${match.kills[player]}\n`;
     });
+
+    report += 'Player ranking (by kills):\n';
+    const sortedPlayers = Object.keys(match.kills).sort((a, b) => match.kills[b] - match.kills[a]);
+    sortedPlayers.forEach((player, rank) => {
+      report += `  ${rank + 1}. ${player}: ${match.kills[player]} kills\n`;
+    });
+  });
+
+  fs.writeFileSync(outputFilePath, report);
+  console.log(`Report saved to ${outputFilePath}`);
+}
+
+function getTimestampedFileName(baseName, extension) {
+  const now = new Date();
+  const timestamp = now.toISOString().replace(/[:.]/g, '-');
+  return `${baseName}_${timestamp}.${extension}`;
 }
 
 const matches = parseLogFile('./qgames.log');
-generateReport(matches);
+const outputFilePath = getTimestampedFileName('game_report', 'txt');
+generateReport(matches, outputFilePath);
+
+
