@@ -59,5 +59,33 @@ function parseKillLine(line) {
   return null;
 }
 
+function generateReport(matches) {
+    matches.forEach((match, index) => {
+        console.log(`\n========== Game ${index + 1} ==========`);
+        console.log(`Total Kills: ${match.totalKills}`);
+        
+        // Convert the players Set to an array for display
+        const players = Array.from(match.players);
+        console.log(`Players: ${players.join(', ')}`);
+        
+        console.log('\n--- Kill Summary ---');
+        Object.keys(match.kills).forEach(player => {
+            const killCount = match.kills[player];
+            const killLabel = Math.abs(killCount) === 1 ? 'kill' : 'kills';
+            console.log(`  ${player}: ${killCount} ${killLabel}`);
+        });
+
+        console.log('\n--- Player Ranking (by kills) ---');
+        const sortedPlayers = Object.keys(match.kills).sort((a, b) => match.kills[b] - match.kills[a]);
+        sortedPlayers.forEach((player, rank) => {
+            const killCount = match.kills[player];
+            const killLabel = Math.abs(killCount) === 1 ? 'kill' : 'kills';
+            console.log(`  ${rank + 1}. ${player}: ${killCount} ${killLabel}`);
+        });
+        
+        console.log('===============================\n');
+    });
+}
+
 const matches = parseLogFile('./qgames.log');
-console.log(matches);
+generateReport(matches);
