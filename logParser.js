@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const logger = require('./logger');
+import fs from 'fs';
+import path from 'path';
+import logger from './logger.js';
 
 function parseLogFile(filePath) {
     let logData;
@@ -155,3 +155,9 @@ function generateCSVReport(matches) {
 const matches = parseLogFile('./qgames.log');
 generateReport(matches);
 
+export {
+    parseLogFile,
+    parseKillLine,
+    generateTextReport,
+    generateCSVReport
+};
