@@ -12,7 +12,12 @@ export function parseLogFile(filePath) {
             if (currentMatch && currentMatch.totalKills > 0) {
                 matches.push(currentMatch);
             }
-            currentMatch = { totalKills: 0, players: new Set(), kills: {} };
+            currentMatch = { 
+                totalKills: 0, 
+                players: new Set(), 
+                kills: {},
+                killsByMeans: {}
+            };
         } else if (line.includes('ShutdownGame')) {
             if (currentMatch && currentMatch.totalKills > 0) {
                 matches.push(currentMatch);
@@ -27,6 +32,7 @@ export function parseLogFile(filePath) {
                 if (killData.killer !== '<world>') {
                     currentMatch.kills[killData.killer] = (currentMatch.kills[killData.killer] || 0) + 1;
                 }
+                currentMatch.killsByMeans[killData.meansOfDeath] = (currentMatch.killsByMeans[killData.meansOfDeath] || 0) + 1;
             }
         }
     });

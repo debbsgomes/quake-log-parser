@@ -11,6 +11,11 @@ export function generateCSVReport(matches) {
         });
 
         csvReport += `${gameNumber},Total Kills,${match.totalKills},\n`;
+
+        csvReport += 'Kills by Means of Death:\n';
+        Object.keys(match.killsByMeans).forEach(means => {
+            csvReport += `${gameNumber},${means},${match.killsByMeans[means]},\n`;
+        });
     });
 
     const totalKills = matches.reduce((acc, match) => acc + match.totalKills, 0);
@@ -34,6 +39,17 @@ export function generateCSVReport(matches) {
     const sortedOverallPlayers = Object.keys(playerStats).sort((a, b) => playerStats[b] - playerStats[a]);
     sortedOverallPlayers.forEach((player, rank) => {
         csvReport += `${player},${playerStats[player]},${rank + 1}\n`;
+    });
+
+    csvReport += `Overall Kills by Means of Death\n`;
+    const overallMeansOfDeath = {};
+    matches.forEach(match => {
+        Object.keys(match.killsByMeans).forEach(means => {
+            overallMeansOfDeath[means] = (overallMeansOfDeath[means] || 0) + match.killsByMeans[means];
+        });
+    });
+    Object.keys(overallMeansOfDeath).forEach(means => {
+        csvReport += `${means},${overallMeansOfDeath[means]}\n`;
     });
 
     return csvReport;

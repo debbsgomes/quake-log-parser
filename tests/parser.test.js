@@ -81,60 +81,80 @@ describe('Log Parser Tests', () => {
 
     const parsedData = parseLogFile(filePath);
     console.log('Parsed Data:', JSON.stringify(parsedData, null, 2));
-
-    // Check if matches are parsed
-    expect(parsedData.length).toBeGreaterThan(0);  // Ensure at least one match is parsed
-
-    // Simplified checks
+    expect(parsedData.length).toBeGreaterThan(0);
     const firstMatch = parsedData[0];
     expect(firstMatch).toHaveProperty('totalKills');
     expect(Array.from(firstMatch.players)).toEqual(expect.arrayContaining(['Isgalamido', 'Mocinha']));
     expect(firstMatch.kills).toBeDefined();
+    expect(firstMatch.killsByMeans).toBeDefined();
 
     const secondMatch = parsedData[1];
     expect(secondMatch).toHaveProperty('totalKills');
     expect(Array.from(secondMatch.players)).toEqual(expect.arrayContaining(['Isgalamido', 'Mocinha']));
     expect(secondMatch.kills).toBeDefined();
+    expect(secondMatch.killsByMeans).toBeDefined();
 
     fs.unlinkSync(filePath);
 });
 
-  test('parseKillLine should correctly parse kill line', () => {
-    const line = 'Kill: 123 456 789: Killer1 killed Victim1 by MOD';
+test('parseKillLine should correctly parse kill line', () => {
+    const line = 'Kill: 123 456 789: Killer1 killed Victim1 by MOD_RAILGUN';
     const result = parseKillLine(line);
-    expect(result).toEqual({ killer: 'Killer1', victim: 'Victim1', meansOfDeath: 'MOD' });
-  });
+    expect(result).toEqual({ killer: 'Killer1', victim: 'Victim1', meansOfDeath: 'Railgun'});
+});
 
-  test('generateTextReport should create a valid report', () => {
-    const matches = [{ totalKills: 1, players: new Set(['Killer1', 'Victim1']), kills: { 'Killer1': 1 } }];
+test('generateTextReport should create a valid report', () => {
+    const matches = [
+        { 
+            totalKills: 3, 
+            players: new Set(['Killer1', 'Victim1']),
+            kills: { 'Killer1': 2, 'Victim1': 1 },
+            killsByMeans: { 'MOD_RAILGUN': 2, 'MOD_TRIGGER_HURT': 1 }
+        }
+    ];
     const report = generateTextReport(matches);
     expect(report).toContain('********** Game 1 **********');
-    expect(report).toContain('Total kills: 1');
+    expect(report).toContain('Total kills: 3');
     expect(report).toContain('Players: Killer1, Victim1');
     expect(report).toContain('Kills per player:');
-    expect(report).toContain('Killer1        :  1');
+    expect(report).toContain('Killer1        :  2');
+    expect(report).toContain('Victim1        :  1');
+    expect(report).toContain('Kills by means of death:');
+    expect(report).toContain('MOD_RAILGUN         :  2');
+    expect(report).toContain('MOD_TRIGGER_HURT    :  1');
     expect(report).toContain('Player ranking (by kills):');
-    expect(report).toContain('1. Killer1        : 1 kills');
+    expect(report).toContain('1. Killer1        : 2 kills');
     expect(report).toContain('********** Overall Stats **********');
-  });
+    expect(report).toContain('Average kills per game: 3.00');
+    expect(report).toContain('Overall kills by means of death:');
+    expect(report).toContain('MOD_RAILGUN         :  2');
+    expect(report).toContain('MOD_TRIGGER_HURT    :  1');
+    expect(report).toContain('Top players overall:');
+    expect(report).toContain('1. Killer1        : 2 total kills');
+    expect(report).toContain('2. Victim1        : 1 total kills');
+});
 
-  test('generateCSVReport should create a valid CSV report', () => {
+test('generateCSVReport should create a valid CSV report', () => {
     const matches = [
-      { totalKills: 10, players: new Set(['Killer1', 'Victim1']), kills: { 'Killer1': 5, 'Victim1': 5 } },
-      { totalKills: 8, players: new Set(['Killer1', 'Killer2']), kills: { 'Killer1': 3, 'Killer2': 5 } }
+        { 
+            totalKills: 3, 
+            players: new Set(['Killer1', 'Victim1']),
+            kills: { 'Killer1': 2, 'Victim1': 1 },
+            killsByMeans: { 'MOD_RAILGUN': 2, 'MOD_TRIGGER_HURT': 1 }
+        }
     ];
 
     const csvReport = generateCSVReport(matches);
     expect(csvReport).toContain('Game,Player,Total Kills,Ranking');
-    expect(csvReport).toContain('1,Killer1,5,1');
-    expect(csvReport).toContain('1,Victim1,5,2');
-    expect(csvReport).toContain('2,Killer2,5,1');
-    expect(csvReport).toContain('2,Killer1,3,2');
+    expect(csvReport).toContain('1,Killer1,2,1');
+    expect(csvReport).toContain('1,Victim1,1,2');
     expect(csvReport).toContain('Overall Stats');
-    expect(csvReport).toContain('Average Kills per Game,9.00');
-    expect(csvReport).toContain('Killer1,8,1');
-    expect(csvReport).toContain('Killer2,5,3');
-  });
+    expect(csvReport).toContain('Average Kills per Game,3.00');
+    expect(csvReport).toContain('Killer1,2,1');
+    expect(csvReport).toContain('Victim1,1,2');
+    expect(csvReport).toContain('MOD_RAILGUN,2');
+    expect(csvReport).toContain('MOD_TRIGGER_HURT,1');
+});
 
   test('should generate correct JSON report', () => {
     const parsedData = {
