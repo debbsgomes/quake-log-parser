@@ -89,6 +89,11 @@ function generateReport(matches) {
         const csvReport = generateCSVReport(matches);
         fs.writeFileSync(csvFilePath, csvReport);
         console.log(`CSV report saved to ${csvFilePath}`);
+
+        const jsonFilePath = path.resolve(__dirname, `${baseFilename}.json`);
+        const jsonReport = generateJSONReport(matches);
+        fs.writeFileSync(jsonFilePath, jsonReport);
+        console.log(`JSON report saved to ${jsonFilePath}`);
     } catch (error) {
         logger.error(`Error generating reports: ${error.message}`);
         console.error(`Full error: ${error.stack}`);
@@ -102,16 +107,16 @@ function generateTextReport(matches) {
     let playerStats = {};
 
     matches.forEach((match, index) => {
-        report += `\nGame ${index + 1}:\n`;
+        report += `\n********** Game ${index + 1} **********\n`;
         report += `Total kills: ${match.totalKills}\n`;
         totalKills += match.totalKills;
 
         const players = Array.from(match.players);
         report += `Players: ${players.join(', ')}\n`;
 
-        report += 'Kills:\n';
+        report += '\nKills per player:\n';
         Object.keys(match.kills).forEach(player => {
-            report += `  ${player}: ${match.kills[player]}\n`;
+            report += `  ${player.padEnd(15, ' ')}: ${match.kills[player].toString().padStart(2, ' ')}\n`;
 
             if (!playerStats[player]) {
                 playerStats[player] = 0;
@@ -119,24 +124,26 @@ function generateTextReport(matches) {
             playerStats[player] += match.kills[player];
         });
 
-        report += 'Player ranking (by kills):\n';
+        report += '\nPlayer ranking (by kills):\n';
         const sortedPlayers = Object.keys(match.kills).sort((a, b) => match.kills[b] - match.kills[a]);
         sortedPlayers.forEach((player, rank) => {
-            report += `  ${rank + 1}. ${player}: ${match.kills[player]} kills\n`;
+            report += `  ${rank + 1}. ${player.padEnd(15, ' ')}: ${match.kills[player]} kills\n`;
         });
+        report += `************************************\n`;
     });
 
     const numberOfGames = matches.length;
     const averageKills = totalKills / numberOfGames;
 
-    report += `\nOverall Stats:\n`;
+    report += `\n********** Overall Stats **********\n`;
     report += `Average kills per game: ${averageKills.toFixed(2)}\n`;
-    report += `Top player overall:\n`;
+    report += `\nTop players overall:\n`;
 
     const sortedOverallPlayers = Object.keys(playerStats).sort((a, b) => playerStats[b] - playerStats[a]);
     sortedOverallPlayers.forEach((player, rank) => {
-        report += `  ${rank + 1}. ${player}: ${playerStats[player]} total kills\n`;
+        report += `  ${rank + 1}. ${player.padEnd(15, ' ')}: ${playerStats[player]} total kills\n`;
     });
+    report += `************************************\n`;
 
     return report;
 }
@@ -152,9 +159,38 @@ function generateCSVReport(matches) {
             const playerRanking = rank + 1;
             csvReport += `${gameNumber},${player},${match.kills[player]},${playerRanking}\n`;
         });
+
+        csvReport += `${gameNumber},Total Kills,${match.totalKills},\n`;
+    });
+
+    const totalKills = matches.reduce((acc, match) => acc + match.totalKills, 0);
+    const numberOfGames = matches.length;
+    const averageKills = totalKills / numberOfGames;
+
+    csvReport += `Overall Stats,,,\n`;
+    csvReport += `Average Kills per Game,${averageKills.toFixed(2)},\n`;
+
+    let playerStats = {};
+    matches.forEach(match => {
+        Object.keys(match.kills).forEach(player => {
+            if (!playerStats[player]) {
+                playerStats[player] = 0;
+            }
+            playerStats[player] += match.kills[player];
+        });
+    });
+
+    csvReport += `Player,Total Kills,Ranking\n`;
+    const sortedOverallPlayers = Object.keys(playerStats).sort((a, b) => playerStats[b] - playerStats[a]);
+    sortedOverallPlayers.forEach((player, rank) => {
+        csvReport += `${player},${playerStats[player]},${rank + 1}\n`;
     });
 
     return csvReport;
+}
+
+function generateJSONReport(parsedData) {
+    return JSON.stringify(parsedData, null, 2);
 }
 
 const matches = parseLogFile('./qgames.log');
@@ -164,5 +200,6 @@ export {
     parseLogFile,
     parseKillLine,
     generateTextReport,
-    generateCSVReport
+    generateCSVReport,
+    generateJSONReport
 };
