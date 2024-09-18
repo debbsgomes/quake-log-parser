@@ -6,51 +6,67 @@ import logger from './logger.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+function validateMatchData(match) {
+    if (!match || typeof match !== 'object') {
+        throw new Error('Invalid match data: Match is missing or not an object.');
+    }
+    if (typeof match.totalKills !== 'number') {
+        throw new Error('Invalid match data: totalKills should be a number.');
+    }
+    if (!(match.players instanceof Set)) {
+        throw new Error('Invalid match data: players should be a Set.');
+    }
+    if (typeof match.kills !== 'object') {
+        throw new Error('Invalid match data: kills should be an object.');
+    }
+}
+
 function parseLogFile(filePath) {
     let logData;
     try {
         logData = fs.readFileSync(filePath, 'utf-8');
+        console.log('Log Data Read:', logData);
     } catch (error) {
         logger.error(`Error reading file ${filePath}: ${error.message}`);
         return [];
     }
 
     const lines = logData.split('\n');
+    console.log('Number of lines:', lines.length);
     const matches = [];
     let currentMatch = null;
 
-    lines.forEach(line => {
+    lines.forEach((line, index) => {
+        console.log(`Processing Line ${index}:`, line);
         try {
             if (line.includes('InitGame')) {
-                if (currentMatch) {
+                console.log('Found InitGame');
+                if (currentMatch && currentMatch.totalKills > 0) {
                     matches.push(currentMatch);
+                    console.log('Pushed current match:', currentMatch);
                 }
                 currentMatch = { totalKills: 0, players: new Set(), kills: {} };
             } else if (line.includes('ShutdownGame')) {
-                if (currentMatch) {
+                console.log('Found ShutdownGame');
+                if (currentMatch && currentMatch.totalKills > 0) {
                     matches.push(currentMatch);
+                    console.log('Pushed current match:', currentMatch);
                     currentMatch = null;
                 }
             } else if (line.includes('Kill:')) {
+                console.log('Found Kill line');
                 const killData = parseKillLine(line);
 
-                if (killData) {
+                if (killData && currentMatch) {
+                    console.log('Kill data parsed:', killData);
                     currentMatch.totalKills += 1;
                     currentMatch.players.add(killData.killer);
                     currentMatch.players.add(killData.victim);
 
-                    if (!currentMatch.kills[killData.killer]) {
-                        currentMatch.kills[killData.killer] = 0;
+                    if (killData.killer !== '<world>') {
+                        currentMatch.kills[killData.killer] = (currentMatch.kills[killData.killer] || 0) + 1;
                     }
-
-                    if (killData.killer === '<world>') {
-                        if (!currentMatch.kills[killData.victim]) {
-                            currentMatch.kills[killData.victim] = 0;
-                        }
-                        currentMatch.kills[killData.victim] -= 1;
-                    } else {
-                        currentMatch.kills[killData.killer] += 1;
-                    }
+                    console.log('Updated current match:', currentMatch);
                 }
             }
         } catch (error) {
@@ -58,25 +74,35 @@ function parseLogFile(filePath) {
         }
     });
 
-    if (currentMatch) {
+    if (currentMatch && currentMatch.totalKills > 0) {
         matches.push(currentMatch);
+        console.log('Pushed final match:', currentMatch);
     }
 
+    console.log('Final matches:', matches);
     return matches;
 }
 
+
 function parseKillLine(line) {
-    const killRegex = /Kill:\s+\d+\s+\d+\s+\d+:\s+(.*)\skilled\s(.*)\sby\s(.*)/;
+    const killRegex = /Kill:\s+\d+\s+\d+\s+\d+:\s+(.*?)\skilled\s(.*?)\sby\s(.*)$/;
     const match = line.match(killRegex);
     if (match) {
         const [, killer, victim, meansOfDeath] = match;
-        return { killer, victim, meansOfDeath };
+        return { 
+            killer: killer === '<world>' ? '<world>' : killer.trim(), 
+            victim: victim.trim(), 
+            meansOfDeath: meansOfDeath.trim() 
+        };
     }
     return null;
 }
 
 function generateReport(matches) {
     try {
+
+        matches.forEach(validateMatchData);
+
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
         const baseFilename = `game_report_${timestamp}`;
 
@@ -197,6 +223,7 @@ const matches = parseLogFile('./qgames.log');
 generateReport(matches);
 
 export {
+    validateMatchData,
     parseLogFile,
     parseKillLine,
     generateTextReport,
