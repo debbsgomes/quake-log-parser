@@ -21,6 +21,12 @@ export default [
         ...globals.jest,
       },
     },
+    env: {
+      node: true
+    },
+    extends: [
+      'eslint:recommended'
+    ],  
     plugins: {
       jest: pluginJest,
     },
