@@ -1,7 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { validateMatchData, parseLogFile, parseKillLine, generateTextReport, generateCSVReport, generateJSONReport } from '../logParser.js';
+import { validateMatchData } from '../validator/matchValidator.js';
+import { parseLogFile } from '../parser/logParser.js';
+import { parseKillLine } from '../parser/killParser.js';
+import { generateTextReport } from '../reportTypes/textReport.js';
+import { generateCSVReport } from '../reportTypes/csvReport.js';
+import { generateJSONReport } from '../reportTypes/jsonReport.js';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
