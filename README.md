@@ -1,6 +1,6 @@
 # Quake Log Parser
 
-A comprehensive log parsing tool designed to analyze Quake game logs and generate various reports. This tool parses log files, extracts relevant data, and generates reports in multiple formats including text, CSV, and JSON.
+A comprehensive log parsing tool designed to analyze Quake game logs and generate various reports. This tool parses log files, extracts relevant data, and generates reports in multiple formats including text, CSV, and JSON. It also includes an LLM-powered game analyst to answer queries about match data.
 
 ## Table of Contents
 
@@ -9,6 +9,7 @@ A comprehensive log parsing tool designed to analyze Quake game logs and generat
 -   [Usage](#usage)
     -   [Parsing Logs](#parsing-logs)
     -   [Generating Reports](#generating-reports)
+    -   [LLM Integration](#llm-integration)
 -   [API Documentation](#api-documentation)
     -   [parseLogFile](#parselogfilefilepath)
     -   [parseKillLine](#parsekilllineline)
@@ -16,6 +17,8 @@ A comprehensive log parsing tool designed to analyze Quake game logs and generat
     -   [generateCSVReport](#generatecsvreportmatches)
     -   [generateJSONReport](#generatejsonreportmatches)
     -   [validateMatchData](#validatematchdatamatch)
+    -   [getLLMResponse](#getllmresponseprompt)
+-   [Running Tests](#running-tests)
 -   [Contributing](#contributing)
 -   [License](#license)
 
@@ -24,6 +27,7 @@ A comprehensive log parsing tool designed to analyze Quake game logs and generat
 -   Parses Quake game logs to extract match data.
 -   Generates reports in text, CSV, and JSON formats.
 -   Validates parsed match data to ensure correctness.
+-   Uses an LLM to answer queries about match data.
 
 ## Installation
 
@@ -82,6 +86,29 @@ Reports will be generated and saved in the current directory. The generated file
 -   `.csv` - CSV-based report
 -   `.json` - JSON-based report
 
+### LLM Integration
+
+The tool includes an LLM-powered game analyst. To use the LLM, ensure you have configured the environment with your API key. You can query the LLM for information about match data.
+
+1.  Ensure you have an API key and set it in your environment variables.
+    
+2.  The LLM integration is handled by the `llmClient.js` file. Use the function `getLLMResponse(prompt)` to send queries to the LLM. For example:
+    
+    javascript
+    
+    Copiar código
+    
+    `import { getLLMResponse } from './llmClient.js';
+    
+    async function queryLLM() {
+      const prompt = "How many matches were played?";
+      const response = await getLLMResponse(prompt);
+      console.log(response);
+    }
+    
+    queryLLM();` 
+    
+
 ## API Documentation
 
 ### `parseLogFile(filePath)`
@@ -89,10 +116,8 @@ Reports will be generated and saved in the current directory. The generated file
 Parses a log file and extracts match data.
 
 -   **Parameters:**
-    
     -   `filePath` (string): Path to the log file.
 -   **Returns:**
-    
     -   `Array`: An array of match objects.
 
 ### `parseKillLine(line)`
@@ -100,10 +125,8 @@ Parses a log file and extracts match data.
 Parses a single line from the log file to extract kill data.
 
 -   **Parameters:**
-    
     -   `line` (string): A line from the log file.
 -   **Returns:**
-    
     -   `Object | null`: An object containing `killer`, `victim`, and `meansOfDeath` or `null` if parsing fails.
 
 ### `generateTextReport(matches)`
@@ -111,10 +134,8 @@ Parses a single line from the log file to extract kill data.
 Generates a text-based report from the parsed matches.
 
 -   **Parameters:**
-    
     -   `matches` (Array): An array of match objects.
 -   **Returns:**
-    
     -   `string`: A formatted text report.
 
 ### `generateCSVReport(matches)`
@@ -122,10 +143,8 @@ Generates a text-based report from the parsed matches.
 Generates a CSV-based report from the parsed matches.
 
 -   **Parameters:**
-    
     -   `matches` (Array): An array of match objects.
 -   **Returns:**
-    
     -   `string`: A CSV-formatted report.
 
 ### `generateJSONReport(matches)`
@@ -133,10 +152,8 @@ Generates a CSV-based report from the parsed matches.
 Generates a JSON-based report from the parsed matches.
 
 -   **Parameters:**
-    
     -   `matches` (Array): An array of match objects.
 -   **Returns:**
-    
     -   `string`: A JSON-formatted report.
 
 ### `validateMatchData(match)`
@@ -144,11 +161,38 @@ Generates a JSON-based report from the parsed matches.
 Validates the structure of a match object.
 
 -   **Parameters:**
-    
     -   `match` (Object): The match object to validate.
 -   **Throws:**
-    
     -   `Error`: If the match data is invalid.
+
+### `getLLMResponse(prompt)`
+
+Queries the LLM with a prompt and returns the response.
+
+-   **Parameters:**
+    -   `prompt` (string): The query to send to the LLM.
+-   **Returns:**
+    -   `string`: The response from the LLM.
+
+## Running Tests
+
+To run the tests, use the following command:
+
+bash
+
+Copiar código
+
+`npm test` 
+
+or
+
+bash
+
+Copiar código
+
+`yarn test` 
+
+This will run all the unit and integration tests in the project. Ensure that your environment is correctly set up and that any necessary mock configurations or environment variables are in place.
 
 ## Contributing
 
