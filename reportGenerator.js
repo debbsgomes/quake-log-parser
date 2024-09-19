@@ -38,6 +38,9 @@ export function generateReport(matches) {
     }
 }
 
+const matches = parseLogFile('./qgames.log');
+generateReport(matches);
+
 async function analyzeGameData() {
     try {
         const matches = parseLogFile('./qgames.log');
@@ -60,8 +63,5 @@ async function analyzeGameData() {
     }
 }
 
-
-const matches = parseLogFile('./qgames.log');
-generateReport(matches);
-analyzeGameData(matches);
+analyzeGameData();
 
