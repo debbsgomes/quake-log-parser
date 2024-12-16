@@ -1,4 +1,4 @@
-# Quake Log Parser
+# Quake Log Parser..
 
 A comprehensive log parsing tool designed to analyze Quake game logs and generate various reports. This tool parses log files, extracts relevant data, and generates reports in multiple formats including text, CSV, and JSON. It also includes an LLM-powered game analyst to answer queries about match data.
 
