@@ -1,6 +1,6 @@
 # Quake Log Parser
 
-A comprehensive log parsing tool designed to analyze Quake game logs and generate various reports. This tool parses log files, extracts relevant data, and generates reports in multiple formats including text, CSV, and JSON. It also includes an LLM-powered game analyst to answer queries about match data.
+A comprehensive log parsing tool designed to analyze Quake game logs and generate various reports. This tool parses log files, extracts relevant data, and generates reports in multiple formats, including text, CSV, and JSON. It also includes an LLM-powered game analyst to answer queries about match data.
 
 ## Table of Contents
 
@@ -37,7 +37,7 @@ A comprehensive log parsing tool designed to analyze Quake game logs and generat
     
     Copiar código
     
-    `git clone https://github.com/debbsgomes/quake-log-parser-cloudwalk-test.git` 
+    `git clone https://github.com/debbsgomes/quake-log-parser.git` 
     
 2.  Navigate to the project directory:
     
@@ -45,7 +45,7 @@ A comprehensive log parsing tool designed to analyze Quake game logs and generat
     
     Copiar código
     
-    `cd quake-log-parser-cloudwalk-test` 
+    `cd quake-log-parser` 
     
 3.  Install dependencies (if using npm or yarn):
     
